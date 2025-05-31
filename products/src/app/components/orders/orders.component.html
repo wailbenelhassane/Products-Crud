@@ -1,0 +1,54 @@
+<div class ="container mt-4">
+  <h3> Manage Orders</h3>
+
+  <form #OrderForm="ngForm" (ngSubmit)="onSubmit(OrderForm)">
+
+    <div class="form-group">
+      <label>Client</label>
+      <select class="form-control" name="clientId" [(ngModel)]="order.clientId" required>
+        <option *ngFor="let client of clients" [value]="client.id">{{client.name}}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Product</label>
+      <select class="form-control" name="productId" [(ngModel)]="order.productId" required>
+        <option *ngFor="let product of products" [value]="product.id">{{product.name}}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Quantity</label>
+      <input class="form-control" type="number" name="quantity" min="1" [(ngModel)]="order.quantity" required>
+    </div>
+
+    <button class="btn btn-primary mt-2" type="submit" style="margin-right: 2%;" [disabled] ="OrderForm.invalid">
+      {{editMode ? 'Update':'Add'}} Order
+    </button>
+
+    <button class="btn btn-secondary mt-2 ml-2" type="button" (click)="clear(OrderForm)">Clear</button>
+  </form>
+
+  <table class="table table-striped mt-4" *ngIf="orders.length > 0">
+    <thead>
+    <tr>
+      <th>Client</th>
+      <th>Product</th>
+      <th>Quantity</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let order of orders">
+      <td>{{getClientName(order.clientId)}}</td>
+      <td>{{getProductName(order.productId)}}</td>
+      <td>{{order.quantity}}</td>
+      <td>
+        <button class="btn btn-sm btn-warning" style="margin-right: 5%;" (click)="edit(order)">Edit</button>
+        <button class="btn btn-sm btn-danger" (click)="delete(order)">Delete</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+</div>
